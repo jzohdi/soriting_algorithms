@@ -9,8 +9,7 @@ public class Quicksort {
 		if ( low == high ) {
 			return arr;
 		}
-		System.out.print(low);
-		System.out.print(high + "\n");
+
 		int pivotIndex = high;
 		int pivot = arr[ high ];
 		int highIndex = high - 1;
@@ -25,17 +24,13 @@ public class Quicksort {
 					arr = swap(arr, lowIndex, highIndex );
 					lowIndex += 1;
 					highIndex -= 1;
-//					swapped = true;
-//					quicksort( arr, lowIndex + 1, highIndex - 1);
+
 				} else {
 					for ( int x = highIndex; x >= lowIndex; x-- ) {
 						if ( x == lowIndex ) {
 							swap(arr, x, pivotIndex);
 							pivotChange = true;
-							System.out.print(x);
-							System.out.print(lowIndex);
-							System.out.print(highIndex);
-							System.out.print(pivotIndex+ "\n");
+
 							quicksort(arr, low, x - 1);
 							quicksort(arr, x + 1, pivotIndex);
 							break;
@@ -66,14 +61,13 @@ public class Quicksort {
 		return arr;
 		
 	}
-//	private static int getPivot( int leftIndex, int rightIndex ) {
-//		Random r = new Random();
-//		return r.nextInt( (rightIndex - leftIndex) + 1) + leftIndex;
-//	}
+	/* TODO
+	 * optimize with random pivot, and use partition for getting pivot index;
+	 * 
 	private static int partition(int[] intArray, int leftIndex, int rightIndex ) {
 		int pivot = rightIndex;
 		return pivot;
-	}
+	}*/
 	public static void print( int num ) {
 		System.out.println( num );
 	}
