@@ -17,44 +17,67 @@ class MutableInt {
 
 public class TreeSort {
 	
-	public static TreeMap<Integer, MutableInt> tree = new TreeMap<Integer, MutableInt>();
+	public static TreeMap<Comparable, MutableInt> tree = new TreeMap<Comparable, MutableInt>();
 	
 	public static void main(String[] args) {
 //		System.out.println("here");
+		String allChars = "abcdefghijklmnopqrstuvwxyzABSCDEFGHIJKLMNOPQRSTUVWXYZ";
 		Random ran = new Random();
-		int[] arr  = new int[1000];
+		String[] arr  = new String[1000];
 		for ( int x = 0; x < 1000; x++ ) {
-			int rand = ran.nextInt(900);
-			arr[x] = rand;
+			StringBuilder newString = new StringBuilder();
+			int randomLength = ran.nextInt(20) + 1;
+			for ( int y = 0; y < randomLength; y++ ) {
+				int randomL = ran.nextInt(allChars.length());
+				newString.append( allChars.charAt( randomL ) );
+			}
+			arr[x] = newString.toString();
 		}
 		
 		long startTime = System.nanoTime();
-		int[] sorted = treeSort(arr);
+		Comparable[] sorted = treeSort(arr);
 		long endTime = System.nanoTime();
+		
 		long myTime = (endTime - startTime);
-//		for ( int element : sorted ) {
+		
+//		for ( String element : sorted ) {
 //			System.out.println( element + ", " );
 //		}
+		
 		for ( int x = 0; x < 1000; x++ ) {
-			int rand = ran.nextInt(900);
-			arr[x] = rand;
+			StringBuilder newString = new StringBuilder();
+			int randomLength = ran.nextInt(20) + 1;
+			for ( int y = 0; y < randomLength; y++ ) {
+				int randomL = ran.nextInt(allChars.length());
+				newString.append( allChars.charAt( randomL ) );
+			}
+			arr[x] = newString.toString();
 		}
+		
 		startTime = System.nanoTime();
 		Arrays.sort(arr);
 		endTime = System.nanoTime();
+		
 		long javaTime = (endTime - startTime);
-		System.out.println((myTime/javaTime));
+		System.out.println("Tree sort algorithim : " + myTime +"ns");
+		System.out.println("Java's sort algorithim: " + javaTime +"ns");
+		
+		if ( myTime < javaTime ) {
+			System.out.println("IndexSort is about " + (javaTime/myTime) + " times faster");
+		} else {
+			System.out.println("JavaSort is about " + (myTime/javaTime) + " times faster");
+		}
 	}
 		
-	public static int[] treeSort( int[] array ) {
+	public static Comparable[] treeSort( String[] array ) {
 		int index = array.length - 1;
 	
-		int [] sorted = new int[array.length];
-		for ( int element : array ) {
+		Comparable [] sorted = new Comparable[array.length];
+		for ( Comparable element : array ) {
 			add( element );
 		}
 		while( !( tree.isEmpty() ) ) {
-			int value = getKey();
+			Comparable value = getKey();
 
 			sorted[index] = value;
 			index--;
@@ -62,12 +85,7 @@ public class TreeSort {
 		return sorted;
 		
 	}
-	
-	/* In testing a mutable object to increment or 
-	 decrease value runs faster than other methods 
-	 of changing int value for value key pair in map */
-	
-	public static void add( int ele ) {
+	public static void add( Comparable ele ) {
 		MutableInt val = tree.get( ele );
 		if ( val == null ) {
 			tree.put( ele , new MutableInt());
@@ -76,8 +94,8 @@ public class TreeSort {
 		}	
 	}
 	
-	public static int getKey() {
-		int element = tree.lastKey();
+	public static Comparable getKey() {
+		Comparable element = tree.lastKey();
 		MutableInt value = tree.get( element );
 		value.decrease();
 		if ( value.value == 0 ) {
